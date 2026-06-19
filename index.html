@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KryxMind AI</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #1a1a2e;
+            color: #fff;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+        }
+        .card {
+            background: #16213e;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        .model-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            background: #0f3460;
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: left;
+        }
+        .model-btn:active {
+            background: #1a4f8a;
+        }
+        .premium {
+            border: 1px solid #fbbf24;
+        }
+        .status {
+            text-align: center;
+            padding: 10px;
+            background: #0f3460;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧠 KryxMind AI</h1>
+        
+        <div class="card">
+            <h3>📊 Статус подписки</h3>
+            <div class="status" id="status">🔴 Нет подписки</div>
+            <button class="btn-primary" onclick="openSubscription()">💳 Купить подписку</button>
+        </div>
+
+        <div class="card">
+            <h3>🆓 Бесплатные модели</h3>
+            <button class="model-btn" onclick="selectModel('openrouter/free')">🧠 Лучшая (роутер)</button>
+            <button class="model-btn" onclick="selectModel('openai/gpt-oss-120b:free')">💻 GPT-OSS 120B</button>
+            <button class="model-btn" onclick="selectModel('google/gemma-4-31b-it:free')">📊 Gemma 4 31B</button>
+            <button class="model-btn" onclick="selectModel('poolside/laguna-m.1-20260312:free')">🎯 Laguna M.1</button>
+        </div>
+
+        <div class="card">
+            <h3>⭐ Премиум-модели</h3>
+            <button class="model-btn premium" onclick="selectModel('openai/gpt-5.5')">🔥 GPT-5.5</button>
+            <button class="model-btn premium" onclick="selectModel('anthropic/claude-4.7-opus')">👑 Claude Opus 4.7</button>
+            <button class="model-btn premium" onclick="selectModel('google/gemini-3.1-pro')">💎 Gemini 3.1 Pro</button>
+        </div>
+
+        <div class="card">
+            <button class="btn-primary" onclick="sendMessage()">💬 Открыть чат</button>
+        </div>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+
+        function selectModel(modelId) {
+            tg.sendData(JSON.stringify({
+                action: 'select_model',
+                model: modelId
+            }));
+            tg.close();
+        }
+
+        function openSubscription() {
+            tg.sendData(JSON.stringify({
+                action: 'open_subscription'
+            }));
+        }
+
+        function sendMessage() {
+            tg.sendData(JSON.stringify({
+                action: 'open_chat'
+            }));
+            tg.close();
+        }
+    </script>
+</body>
+</html>
