@@ -6,7 +6,11 @@
     <title>KryxMind AI</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #0f0c29;
@@ -14,15 +18,16 @@
             min-height: 100vh;
             padding: 12px;
         }
-        .container { max-width: 420px; margin: 0 auto; }
-
-        /* ===== ШАПКА ===== */
+        .container {
+            max-width: 420px;
+            margin: 0 auto;
+        }
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 8px 0 12px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
         .header-left {
             display: flex;
@@ -51,10 +56,14 @@
             border-radius: 20px;
             display: inline-block;
         }
-        .status-premium { background: rgba(107, 203, 119, 0.2); color: #6bcb77; }
-        .status-free { background: rgba(255, 107, 107, 0.15); color: #ff6b6b; }
-
-        /* ===== МОДЕЛИ ===== */
+        .status-premium {
+            background: rgba(107, 203, 119, 0.2);
+            color: #6bcb77;
+        }
+        .status-free {
+            background: rgba(255, 107, 107, 0.15);
+            color: #ff6b6b;
+        }
         .model-selector {
             display: flex;
             gap: 6px;
@@ -64,8 +73,8 @@
         .model-btn {
             padding: 6px 12px;
             border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.04);
             color: #fff;
             font-size: 11px;
             font-weight: 500;
@@ -73,7 +82,9 @@
             transition: all 0.2s;
             flex: 1 0 auto;
         }
-        .model-btn:active { transform: scale(0.95); }
+        .model-btn:active {
+            transform: scale(0.95);
+        }
         .model-btn.active {
             border-color: #6bcb77;
             background: rgba(107, 203, 119, 0.15);
@@ -98,12 +109,10 @@
             background: rgba(107, 203, 119, 0.15);
             color: #6bcb77;
         }
-
-        /* ===== ЧАТ ===== */
         .chat-container {
-            background: rgba(255,255,255,0.03);
+            background: rgba(255, 255, 255, 0.03);
             border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             padding: 10px;
             height: 55vh;
             display: flex;
@@ -115,9 +124,13 @@
             padding: 4px 6px;
             margin-bottom: 8px;
         }
-        .chat-messages::-webkit-scrollbar { width: 4px; }
-        .chat-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
-
+        .chat-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
         .msg {
             padding: 8px 14px;
             margin: 4px 0;
@@ -137,8 +150,12 @@
             margin-right: auto;
             border-bottom-left-radius: 4px;
         }
-        .msg .time { font-size: 10px; opacity: 0.3; display: block; margin-top: 4px; }
-
+        .msg .time {
+            font-size: 10px;
+            opacity: 0.3;
+            display: block;
+            margin-top: 4px;
+        }
         .input-area {
             display: flex;
             gap: 8px;
@@ -147,14 +164,18 @@
             flex: 1;
             padding: 10px 14px;
             border-radius: 14px;
-            border: 1px solid rgba(255,255,255,0.06);
-            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.04);
             color: #fff;
             font-size: 14px;
             outline: none;
         }
-        .input-area input::placeholder { color: rgba(255,255,255,0.25); }
-        .input-area input:disabled { opacity: 0.3; }
+        .input-area input::placeholder {
+            color: rgba(255, 255, 255, 0.25);
+        }
+        .input-area input:disabled {
+            opacity: 0.3;
+        }
         .input-area button {
             padding: 10px 18px;
             border: none;
@@ -164,10 +185,13 @@
             font-weight: 700;
             cursor: pointer;
         }
-        .input-area button:active { transform: scale(0.95); }
-        .input-area button:disabled { opacity: 0.3; cursor: not-allowed; }
-
-        /* ===== КНОПКИ ДЕЙСТВИЙ ===== */
+        .input-area button:active {
+            transform: scale(0.95);
+        }
+        .input-area button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
         .actions {
             display: flex;
             gap: 8px;
@@ -178,40 +202,48 @@
             flex: 1;
             padding: 10px;
             border-radius: 14px;
-            border: 1px solid rgba(255,255,255,0.06);
-            background: rgba(255,255,255,0.03);
-            color: rgba(255,255,255,0.6);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.03);
+            color: rgba(255, 255, 255, 0.6);
             font-size: 12px;
             font-weight: 600;
             cursor: pointer;
         }
-        .actions button:active { background: rgba(255,255,255,0.08); }
-        .actions button.danger { color: #ff6b6b; border-color: rgba(255,107,107,0.2); }
+        .actions button:active {
+            background: rgba(255, 255, 255, 0.08);
+        }
+        .actions button.danger {
+            color: #ff6b6b;
+            border-color: rgba(255, 107, 107, 0.2);
+        }
         .actions button.primary {
             background: linear-gradient(135deg, #ff6b6b, #ff8a5c);
             color: #fff;
             border: none;
         }
-
-        /* ===== МОДАЛКА ПОДПИСКИ ===== */
         .modal {
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.7);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 200;
             backdrop-filter: blur(8px);
         }
-        .modal.active { display: flex; }
+        .modal.active {
+            display: flex;
+        }
         .modal-content {
             background: #1a1a3e;
             padding: 24px;
             border-radius: 20px;
             max-width: 340px;
             width: 90%;
-            border: 1px solid rgba(255,255,255,0.06);
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
         .modal-content h3 {
             text-align: center;
@@ -227,36 +259,49 @@
             align-items: center;
             padding: 12px 16px;
             margin: 6px 0;
-            background: rgba(255,255,255,0.04);
+            background: rgba(255, 255, 255, 0.04);
             border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.06);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             cursor: pointer;
             transition: all 0.2s;
         }
-        .modal-content .plan:active { transform: scale(0.97); background: rgba(255,255,255,0.08); }
-        .modal-content .plan .price { color: #ffd93d; font-weight: 700; font-size: 16px; }
-        .modal-content .plan .days { color: rgba(255,255,255,0.4); font-size: 12px; }
+        .modal-content .plan:active {
+            transform: scale(0.97);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        .modal-content .plan .price {
+            color: #ffd93d;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        .modal-content .plan .days {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 12px;
+        }
         .modal-content .close-btn {
             width: 100%;
             padding: 12px;
             margin-top: 12px;
             border-radius: 12px;
             border: none;
-            background: rgba(255,255,255,0.06);
-            color: rgba(255,255,255,0.4);
+            background: rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.4);
             font-weight: 600;
             cursor: pointer;
         }
-        .modal-content .close-btn:active { background: rgba(255,255,255,0.1); }
-
+        .modal-content .close-btn:active {
+            background: rgba(255, 255, 255, 0.1);
+        }
         .toast {
-            position: fixed; bottom: 20px; left: 50%;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
             transform: translateX(-50%) translateY(100px);
-            background: rgba(255,255,255,0.08);
+            background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(20px);
             padding: 10px 20px;
             border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.06);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             color: #fff;
             font-size: 13px;
             opacity: 0;
@@ -265,18 +310,27 @@
             max-width: 90%;
             text-align: center;
         }
-        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
         .loading {
             display: inline-block;
             width: 16px;
             height: 16px;
-            border: 2px solid rgba(255,255,255,0.1);
+            border: 2px solid rgba(255, 255, 255, 0.1);
             border-top: 2px solid #fff;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 <body>
@@ -284,7 +338,7 @@
     <div class="container">
         <div class="toast" id="toast"></div>
 
-        <!-- МОДАЛКА ПОДПИСКИ -->
+        <!-- Модалка подписки -->
         <div class="modal" id="subscriptionModal">
             <div class="modal-content">
                 <h3>💎 Купить подписку</h3>
@@ -304,7 +358,7 @@
             </div>
         </div>
 
-        <!-- ===== ШАПКА ===== -->
+        <!-- Шапка -->
         <div class="header">
             <div class="header-left">
                 <h1>🍓 KryxMind</h1>
@@ -315,7 +369,7 @@
             </div>
         </div>
 
-        <!-- ===== МОДЕЛИ ===== -->
+        <!-- Модели -->
         <div class="model-selector" id="modelSelector">
             <button class="model-btn active" data-model="openrouter/free" data-premium="false" onclick="selectModel('openrouter/free')">
                 🧠 Лучшая <span class="badge free">FREE</span>
@@ -334,7 +388,7 @@
             </button>
         </div>
 
-        <!-- ===== ЧАТ ===== -->
+        <!-- Чат -->
         <div class="chat-container">
             <div class="chat-messages" id="chatMessages">
                 <div class="msg bot">🍓 Привет! Выбери модель и задавай вопросы.</div>
@@ -345,7 +399,7 @@
             </div>
         </div>
 
-        <!-- ===== ДЕЙСТВИЯ ===== -->
+        <!-- Действия -->
         <div class="actions">
             <button onclick="clearChat()" class="danger">🗑️ Очистить</button>
             <button onclick="openSubscriptionModal()" class="primary">💎 Купить подписку</button>
@@ -355,7 +409,7 @@
 
     <script>
         // ============================================
-        // 1. ИНИЦИАЛИЗАЦИЯ
+        // 1. Telegram WebApp
         // ============================================
         const tg = window.Telegram.WebApp;
         tg.ready();
@@ -366,17 +420,52 @@
         document.getElementById('userName').textContent = '👤 ' + userName;
 
         // ============================================
-        // 2. КОНФИГ
+        // 2. Конфиг (получаем от бота)
         // ============================================
-        // 🔥 ЗАМЕНИ НА СВОЙ КЛЮЧ
-        const OPENROUTER_KEY = 'sk-or-v1-ТВОЙ_КЛЮЧ_СЮДА';
-        
-        // ============================================
-        // 3. ПОДПИСКА (храним в localStorage)
-        // ============================================
+        let OPENROUTER_KEY = null;
         let hasPremium = false;
         let premiumExpires = null;
 
+        function loadConfigFromBot() {
+            // Запрашиваем конфиг у бота
+            tg.sendData(JSON.stringify({
+                action: 'get_config'
+            }));
+        }
+
+        // Обрабатываем ответ от бота
+        function handleConfig(data) {
+            try {
+                const config = JSON.parse(data);
+                OPENROUTER_KEY = config.openrouter_key;
+                hasPremium = config.has_premium || false;
+                premiumExpires = config.premium_until || null;
+
+                // Обновляем UI
+                updateUI();
+
+                // Сохраняем подписку в localStorage
+                if (hasPremium && premiumExpires) {
+                    localStorage.setItem('kryxmind_subscription', JSON.stringify({
+                        expires: premiumExpires
+                    }));
+                }
+
+                console.log('✅ Ключ получен от бота');
+                console.log('💎 Премиум:', hasPremium);
+            } catch (e) {
+                console.error('❌ Ошибка получения конфига:', e);
+                showToast('❌ Не удалось получить конфиг от бота', 3000);
+            }
+        }
+
+        // Слушаем ответы от бота (WebAppData)
+        // В реальности ответ приходит через tg.onEvent или WebAppData
+        // Пока используем заглушку — бот сам отправит ответ на `action: get_config`
+
+        // ============================================
+        // 3. Подписка
+        // ============================================
         function loadSubscription() {
             const data = localStorage.getItem('kryxmind_subscription');
             if (data) {
@@ -389,7 +478,7 @@
                     } else {
                         localStorage.removeItem('kryxmind_subscription');
                     }
-                } catch(e) {}
+                } catch (e) {}
             }
             hasPremium = false;
             premiumExpires = null;
@@ -404,6 +493,12 @@
             hasPremium = true;
             premiumExpires = expires.toISOString();
             updateUI();
+
+            // Сообщаем боту о покупке
+            tg.sendData(JSON.stringify({
+                action: 'buy_subscription',
+                days: days
+            }));
         }
 
         function updateUI() {
@@ -411,7 +506,6 @@
             if (hasPremium) {
                 statusEl.textContent = '🟢 Премиум';
                 statusEl.className = 'status status-premium';
-                // Разблокируем премиум-модели
                 document.querySelectorAll('.model-btn.premium').forEach(btn => {
                     btn.classList.remove('locked');
                     btn.style.opacity = '1';
@@ -420,13 +514,11 @@
             } else {
                 statusEl.textContent = '🔴 Бесплатный';
                 statusEl.className = 'status status-free';
-                // Блокируем премиум-модели
                 document.querySelectorAll('.model-btn.premium').forEach(btn => {
                     btn.classList.add('locked');
                     btn.style.opacity = '0.4';
                     btn.style.cursor = 'not-allowed';
                 });
-                // Если выбрана премиум-модель — сбрасываем на бесплатную
                 const active = document.querySelector('.model-btn.active');
                 if (active && active.dataset.premium === 'true') {
                     selectModel('openrouter/free');
@@ -435,32 +527,25 @@
         }
 
         // ============================================
-        // 4. МОДАЛКА ПОДПИСКИ
+        // 4. Модалка подписки
         // ============================================
         function openSubscriptionModal() {
             document.getElementById('subscriptionModal').classList.add('active');
         }
+
         function closeSubscriptionModal() {
             document.getElementById('subscriptionModal').classList.remove('active');
         }
 
         function buyPlan(days, price) {
             showToast('💎 Оплата ' + days + ' дней за ' + price + ' ₽', 1500);
-            // В реальном проекте здесь интеграция с платежами
-            // Пока тестовая активация:
             saveSubscription(days);
             closeSubscriptionModal();
             showToast('✅ Подписка активирована на ' + days + ' дней!', 2000);
-            // Отправляем в бота для записи в БД
-            tg.sendData(JSON.stringify({
-                action: 'buy_subscription',
-                days: days,
-                price: price
-            }));
         }
 
         // ============================================
-        // 5. ТОСТ
+        // 5. Тост
         // ============================================
         function showToast(text, duration = 2000) {
             const toast = document.getElementById('toast');
@@ -473,15 +558,14 @@
         }
 
         // ============================================
-        // 6. ВЫБОР МОДЕЛИ
+        // 6. Выбор модели
         // ============================================
         let selectedModel = 'openrouter/free';
 
         function selectModel(modelId) {
             const btn = document.querySelector(`[data-model="${modelId}"]`);
             if (!btn) return;
-            
-            // Проверка на премиум
+
             if (btn.dataset.premium === 'true' && !hasPremium) {
                 showToast('⛔ Это премиум-модель! Купи подписку.', 2000);
                 openSubscriptionModal();
@@ -495,7 +579,7 @@
         }
 
         // ============================================
-        // 7. ЧАТ
+        // 7. Чат
         // ============================================
         function addMessage(text, isUser = false) {
             const container = document.getElementById('chatMessages');
@@ -533,10 +617,11 @@
             const container = document.getElementById('chatMessages');
             container.innerHTML = `<div class="msg bot">🍓 История очищена. Задавай вопросы!</div>`;
             showToast('🗑️ Чат очищен', 1500);
+            tg.sendData(JSON.stringify({ action: 'clear' }));
         }
 
         // ============================================
-        // 8. ОТПРАВКА СООБЩЕНИЯ
+        // 8. Отправка сообщения
         // ============================================
         let isProcessing = false;
 
@@ -544,8 +629,13 @@
             const input = document.getElementById('chatInput');
             const text = input.value.trim();
             if (!text || isProcessing) return;
-            
-            // Проверка премиум-модели
+
+            // Проверка ключа
+            if (!OPENROUTER_KEY) {
+                showToast('⛔ Ключ не получен! Перезапусти приложение.', 3000);
+                return;
+            }
+
             const activeBtn = document.querySelector('.model-btn.active');
             if (activeBtn && activeBtn.dataset.premium === 'true' && !hasPremium) {
                 showToast('⛔ Это премиум-модель! Купи подписку.', 2000);
@@ -598,13 +688,21 @@
         }
 
         // ============================================
-        // 9. ЗАГРУЗКА
+        // 9. Загрузка
         // ============================================
+        // Загружаем подписку из localStorage
         loadSubscription();
+
+        // Загружаем историю чата
         loadChatHistory();
+
+        // Обновляем UI
         updateUI();
 
-        console.log('🍓 KryxMind AI v4.0 загружен!');
+        // Запрашиваем конфиг у бота
+        loadConfigFromBot();
+
+        console.log('🍓 KryxMind AI v5.0 загружен!');
         console.log('👤 Пользователь:', user);
         console.log('💎 Премиум:', hasPremium);
     </script>
