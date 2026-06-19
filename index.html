@@ -1,128 +1,615 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>KryxMind AI</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            background: #1a1a2e;
-            color: #fff;
-            padding: 20px;
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(145deg, #0f0c29 0%, #1a1a3e 50%, #2d1b3d 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 16px;
+            overflow-x: hidden;
+        }
+
+        /* Анимированный фон */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 20%, rgba(255, 107, 107, 0.08) 0%, transparent 60%),
+                        radial-gradient(ellipse at 70% 80%, rgba(107, 203, 119, 0.06) 0%, transparent 60%);
+            z-index: 0;
+            animation: backgroundFloat 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes backgroundFloat {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-2%, -2%) rotate(3deg); }
+        }
+
         .container {
-            max-width: 400px;
+            max-width: 420px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
-        h1 {
-            font-size: 24px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+        /* ===== ШАПКА ===== */
+        .header {
+            text-align: center;
+            padding: 20px 0 10px;
+        }
+
+        .header .logo {
+            font-size: 48px;
+            display: block;
+            animation: pulse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 40%, #6bcb77 70%, #4dabf7 100%);
+            background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-align: center;
+            animation: gradientMove 4s ease-in-out infinite alternate;
+            margin-top: 4px;
+            letter-spacing: -0.5px;
         }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        .header .subtitle {
+            color: rgba(255,255,255,0.4);
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        /* ===== КАРТОЧКИ ===== */
         .card {
-            background: #16213e;
-            border-radius: 16px;
-            padding: 20px;
-            margin: 15px 0;
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            padding: 18px 20px;
+            margin: 14px 0;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
         }
+
+        .card:active {
+            transform: scale(0.99);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .card-header h3 {
+            font-size: 15px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-header .count {
+            font-size: 11px;
+            background: rgba(255,255,255,0.06);
+            padding: 2px 10px;
+            border-radius: 20px;
+            color: rgba(255,255,255,0.4);
+        }
+
+        /* ===== СТАТУС ===== */
+        .status-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 18px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .status-box .label {
+            color: rgba(255,255,255,0.4);
+            font-size: 13px;
+        }
+
+        .status-box .value {
+            font-weight: 700;
+            font-size: 14px;
+            padding: 4px 14px;
+            border-radius: 20px;
+        }
+
+        .status-active {
+            color: #6bcb77;
+            background: rgba(107, 203, 119, 0.15);
+        }
+
+        .status-inactive {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.15);
+        }
+
+        /* ===== КНОПКИ МОДЕЛЕЙ ===== */
         .model-btn {
-            display: block;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            background: #0f3460;
-            border: none;
-            border-radius: 10px;
+            padding: 14px 16px;
+            margin: 6px 0;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 14px;
             color: #fff;
-            font-size: 16px;
+            font-size: 14px;
+            font-weight: 500;
             cursor: pointer;
-            text-align: left;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
         }
+
+        .model-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
         .model-btn:active {
-            background: #1a4f8a;
+            transform: scale(0.97);
+            background: rgba(255,255,255,0.06);
         }
-        .premium {
-            border: 1px solid #fbbf24;
+
+        .model-btn:active::before {
+            opacity: 1;
         }
-        .status {
+
+        .model-btn .name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .model-btn .name .emoji {
+            font-size: 18px;
+            width: 28px;
             text-align: center;
-            padding: 10px;
-            background: #0f3460;
-            border-radius: 10px;
-            margin: 10px 0;
         }
+
+        .model-btn .badge {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+
+        .badge-free {
+            background: rgba(107, 203, 119, 0.15);
+            color: #6bcb77;
+            border: 1px solid rgba(107, 203, 119, 0.15);
+        }
+
+        .badge-premium {
+            background: rgba(255, 217, 61, 0.15);
+            color: #ffd93d;
+            border: 1px solid rgba(255, 217, 61, 0.15);
+        }
+
+        .badge-selected {
+            background: rgba(77, 171, 247, 0.2);
+            color: #4dabf7;
+            border: 1px solid rgba(77, 171, 247, 0.2);
+        }
+
+        .model-btn.selected {
+            border-color: rgba(77, 171, 247, 0.3);
+            background: rgba(77, 171, 247, 0.05);
+        }
+
+        /* ===== КНОПКИ ДЕЙСТВИЙ ===== */
         .btn-primary {
             width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 16px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8a5c 100%);
             border: none;
-            border-radius: 10px;
+            border-radius: 14px;
             color: #fff;
-            font-size: 18px;
-            font-weight: bold;
+            font-size: 16px;
+            font-weight: 700;
             cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 6px;
+            box-shadow: 0 4px 24px rgba(255, 107, 107, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+
+        .btn-primary:active::after {
+            opacity: 1;
+        }
+
+        .btn-secondary {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+            color: rgba(255,255,255,0.6);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 8px;
+        }
+
+        .btn-secondary:active {
+            transform: scale(0.97);
+            background: rgba(255,255,255,0.06);
+        }
+
+        /* ===== ТОСТ-УВЕДОМЛЕНИЕ ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(20px);
+            padding: 14px 24px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.06);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 100;
+            max-width: 90%;
+            text-align: center;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ===== ПОДВАЛ ===== */
+        .footer {
+            text-align: center;
+            color: rgba(255,255,255,0.15);
+            font-size: 11px;
+            padding: 20px 0 10px;
+            letter-spacing: 1px;
+        }
+
+        /* ===== АНИМАЦИЯ ПОЯВЛЕНИЯ ===== */
+        .card {
+            animation: fadeUp 0.6s ease both;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.05s; }
+        .card:nth-child(2) { animation-delay: 0.1s; }
+        .card:nth-child(3) { animation-delay: 0.15s; }
+        .card:nth-child(4) { animation-delay: 0.2s; }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== СКРОЛЛ ===== */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <h1>🧠 KryxMind AI</h1>
-        
-        <div class="card">
-            <h3>📊 Статус подписки</h3>
-            <div class="status" id="status">🔴 Нет подписки</div>
-            <button class="btn-primary" onclick="openSubscription()">💳 Купить подписку</button>
+
+        <!-- Тост -->
+        <div class="toast" id="toast"></div>
+
+        <!-- Шапка -->
+        <div class="header">
+            <span class="logo">🍓</span>
+            <h1>KryxMind AI</h1>
+            <div class="subtitle">Ваш ягодный ИИ-помощник</div>
         </div>
 
+        <!-- Статус подписки -->
         <div class="card">
-            <h3>🆓 Бесплатные модели</h3>
-            <button class="model-btn" onclick="selectModel('openrouter/free')">🧠 Лучшая (роутер)</button>
-            <button class="model-btn" onclick="selectModel('openai/gpt-oss-120b:free')">💻 GPT-OSS 120B</button>
-            <button class="model-btn" onclick="selectModel('google/gemma-4-31b-it:free')">📊 Gemma 4 31B</button>
-            <button class="model-btn" onclick="selectModel('poolside/laguna-m.1-20260312:free')">🎯 Laguna M.1</button>
+            <div class="card-header">
+                <h3>📊 Статус подписки</h3>
+                <span class="count" id="statusBadge">🔴 Нет</span>
+            </div>
+            <div class="status-box">
+                <span class="label">Текущий статус</span>
+                <span class="value status-inactive" id="statusDisplay">🔴 Нет подписки</span>
+            </div>
+            <button class="btn-primary" onclick="buySubscription()">💎 Купить подписку</button>
         </div>
 
+        <!-- Бесплатные модели -->
         <div class="card">
-            <h3>⭐ Премиум-модели</h3>
-            <button class="model-btn premium" onclick="selectModel('openai/gpt-5.5')">🔥 GPT-5.5</button>
-            <button class="model-btn premium" onclick="selectModel('anthropic/claude-4.7-opus')">👑 Claude Opus 4.7</button>
-            <button class="model-btn premium" onclick="selectModel('google/gemini-3.1-pro')">💎 Gemini 3.1 Pro</button>
+            <div class="card-header">
+                <h3>🆓 Бесплатные модели</h3>
+                <span class="count">бесплатно</span>
+            </div>
+
+            <button class="model-btn" data-model="openrouter/free" onclick="selectModel('openrouter/free')">
+                <span class="name"><span class="emoji">🧠</span> Лучшая (роутер)</span>
+                <span class="badge badge-free">FREE</span>
+            </button>
+
+            <button class="model-btn" data-model="openai/gpt-oss-120b:free" onclick="selectModel('openai/gpt-oss-120b:free')">
+                <span class="name"><span class="emoji">💻</span> GPT-OSS 120B</span>
+                <span class="badge badge-free">FREE</span>
+            </button>
+
+            <button class="model-btn" data-model="google/gemma-4-31b-it:free" onclick="selectModel('google/gemma-4-31b-it:free')">
+                <span class="name"><span class="emoji">📊</span> Gemma 4 31B</span>
+                <span class="badge badge-free">FREE</span>
+            </button>
+
+            <button class="model-btn" data-model="poolside/laguna-m.1-20260312:free" onclick="selectModel('poolside/laguna-m.1-20260312:free')">
+                <span class="name"><span class="emoji">🎯</span> Laguna M.1</span>
+                <span class="badge badge-free">FREE</span>
+            </button>
+
+            <button class="model-btn" data-model="cohere/north-mini-code-20260617:free" onclick="selectModel('cohere/north-mini-code-20260617:free')">
+                <span class="name"><span class="emoji">🔧</span> North Mini Code</span>
+                <span class="badge badge-free">FREE</span>
+            </button>
         </div>
 
+        <!-- Премиум модели -->
         <div class="card">
-            <button class="btn-primary" onclick="sendMessage()">💬 Открыть чат</button>
+            <div class="card-header">
+                <h3>⭐ Премиум-модели</h3>
+                <span class="count">по подписке</span>
+            </div>
+
+            <button class="model-btn" data-model="openai/gpt-5.5" onclick="selectModel('openai/gpt-5.5')">
+                <span class="name"><span class="emoji">🔥</span> GPT-5.5</span>
+                <span class="badge badge-premium">PREMIUM</span>
+            </button>
+
+            <button class="model-btn" data-model="anthropic/claude-4.7-opus" onclick="selectModel('anthropic/claude-4.7-opus')">
+                <span class="name"><span class="emoji">👑</span> Claude Opus 4.7</span>
+                <span class="badge badge-premium">PREMIUM</span>
+            </button>
+
+            <button class="model-btn" data-model="google/gemini-3.1-pro" onclick="selectModel('google/gemini-3.1-pro')">
+                <span class="name"><span class="emoji">💎</span> Gemini 3.1 Pro</span>
+                <span class="badge badge-premium">PREMIUM</span>
+            </button>
         </div>
+
+        <!-- Действия -->
+        <div class="card">
+            <button class="btn-primary" onclick="openChat()">💬 Открыть чат</button>
+            <button class="btn-secondary" onclick="closeApp()">❌ Закрыть приложение</button>
+        </div>
+
+        <div class="footer">🍓 KryxMind AI • v2.0</div>
     </div>
 
     <script>
+        // ============================================
+        // 1. ИНИЦИАЛИЗАЦИЯ
+        // ============================================
         const tg = window.Telegram.WebApp;
         tg.ready();
+        tg.expand();
 
+        // Данные пользователя
+        const user = tg.initDataUnsafe?.user || { id: 0, username: 'guest' };
+        console.log('👤 Пользователь:', user);
+
+        // Состояние
+        let selectedModel = null;
+
+        // ============================================
+        // 2. ТОСТ-УВЕДОМЛЕНИЯ
+        // ============================================
+        function showToast(text, duration = 2500) {
+            const toast = document.getElementById('toast');
+            toast.textContent = text;
+            toast.classList.add('show');
+            clearTimeout(toast._hideTimer);
+            toast._hideTimer = setTimeout(() => {
+                toast.classList.remove('show');
+            }, duration);
+        }
+
+        // ============================================
+        // 3. ВЫБОР МОДЕЛИ (внутри приложения)
+        // ============================================
         function selectModel(modelId) {
+            selectedModel = modelId;
+
+            // Находим название модели
+            const btn = document.querySelector(`[data-model="${modelId}"]`);
+            const name = btn ? btn.querySelector('.name').textContent.trim() : modelId;
+
+            // Убираем выделение со всех
+            document.querySelectorAll('.model-btn').forEach(b => b.classList.remove('selected'));
+
+            // Выделяем выбранную
+            if (btn) {
+                btn.classList.add('selected');
+                // Меняем бейдж
+                const badge = btn.querySelector('.badge');
+                if (badge) {
+                    const originalText = badge.textContent;
+                    badge.textContent = '✅ ВЫБРАНО';
+                    badge.className = 'badge badge-selected';
+                    setTimeout(() => {
+                        badge.textContent = originalText;
+                        badge.className = originalText.includes('PREMIUM') ? 'badge badge-premium' : 'badge badge-free';
+                    }, 2000);
+                }
+            }
+
+            // Показываем уведомление
+            showToast(`🍓 Выбрана модель: ${name}`, 2000);
+
+            // Отправляем данные в бот (чтобы он знал, какая модель выбрана)
             tg.sendData(JSON.stringify({
                 action: 'select_model',
                 model: modelId
             }));
-            tg.close();
+
+            console.log(`✅ Выбрана модель: ${name} (${modelId})`);
         }
 
-        function openSubscription() {
+        // ============================================
+        // 4. ПОДПИСКА
+        // ============================================
+        function buySubscription() {
+            showToast('💎 Открываем страницу оплаты...', 2000);
             tg.sendData(JSON.stringify({
                 action: 'open_subscription'
             }));
         }
 
-        function sendMessage() {
+        // ============================================
+        // 5. ОТКРЫТЬ ЧАТ
+        // ============================================
+        function openChat() {
+            showToast('💬 Открываем чат...', 1500);
             tg.sendData(JSON.stringify({
                 action: 'open_chat'
             }));
+            // Закрываем приложение через секунду
+            setTimeout(() => {
+                tg.close();
+            }, 800);
+        }
+
+        // ============================================
+        // 6. ЗАКРЫТЬ
+        // ============================================
+        function closeApp() {
             tg.close();
         }
+
+        // ============================================
+        // 7. ЗАГРУЗКА СТАТУСА ПОДПИСКИ
+        // ============================================
+        // Пробуем получить статус через бота (если есть)
+        // Если нет — показываем заглушку
+        setTimeout(() => {
+            // Здесь можно сделать запрос к твоему API
+            // Пока просто показываем демо-статус
+            const statusDisplay = document.getElementById('statusDisplay');
+            const statusBadge = document.getElementById('statusBadge');
+
+            // Можно запросить статус через tg.sendData и обработать ответ
+            // Но для демо оставим как есть
+            statusDisplay.textContent = '🔴 Нет подписки';
+            statusDisplay.className = 'value status-inactive';
+            statusBadge.textContent = '🔴 Нет';
+        }, 500);
+
+        // ============================================
+        // 8. ГОРЯЧИЕ КЛАВИШИ
+        // ============================================
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeApp();
+            }
+        });
+
+        // ============================================
+        // 9. АВТОВЫБОР ПЕРВОЙ МОДЕЛИ (опционально)
+        // ============================================
+        // Раскомментируй, если хочешь авто-выбор
+        // setTimeout(() => {
+        //     const firstBtn = document.querySelector('.model-btn');
+        //     if (firstBtn) {
+        //         const modelId = firstBtn.dataset.model;
+        //         selectModel(modelId);
+        //     }
+        // }, 300);
+
+        console.log('🍓 KryxMind AI Mini App загружен!');
+        console.log('👤 User ID:', user.id);
     </script>
+
 </body>
 </html>
