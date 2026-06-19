@@ -21,7 +21,6 @@
             overflow-x: hidden;
         }
 
-        /* Анимированный фон */
         body::before {
             content: '';
             position: fixed;
@@ -99,11 +98,17 @@
             padding: 18px 20px;
             margin: 14px 0;
             box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-            transition: all 0.3s ease;
+            animation: fadeUp 0.6s ease both;
         }
 
-        .card:active {
-            transform: scale(0.99);
+        .card:nth-child(1) { animation-delay: 0.05s; }
+        .card:nth-child(2) { animation-delay: 0.1s; }
+        .card:nth-child(3) { animation-delay: 0.15s; }
+        .card:nth-child(4) { animation-delay: 0.2s; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .card-header {
@@ -178,29 +183,11 @@
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .model-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
         }
 
         .model-btn:active {
             transform: scale(0.97);
             background: rgba(255,255,255,0.06);
-        }
-
-        .model-btn:active::before {
-            opacity: 1;
         }
 
         .model-btn .name {
@@ -261,28 +248,10 @@
             transition: all 0.2s ease;
             margin-top: 6px;
             box-shadow: 0 4px 24px rgba(255, 107, 107, 0.25);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
         }
 
         .btn-primary:active {
             transform: scale(0.97);
-        }
-
-        .btn-primary:active::after {
-            opacity: 1;
         }
 
         .btn-secondary {
@@ -304,7 +273,7 @@
             background: rgba(255,255,255,0.06);
         }
 
-        /* ===== ТОСТ-УВЕДОМЛЕНИЕ ===== */
+        /* ===== ТОСТ ===== */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -331,7 +300,6 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        /* ===== ПОДВАЛ ===== */
         .footer {
             text-align: center;
             color: rgba(255,255,255,0.15);
@@ -340,47 +308,14 @@
             letter-spacing: 1px;
         }
 
-        /* ===== АНИМАЦИЯ ПОЯВЛЕНИЯ ===== */
-        .card {
-            animation: fadeUp 0.6s ease both;
-        }
-
-        .card:nth-child(1) { animation-delay: 0.05s; }
-        .card:nth-child(2) { animation-delay: 0.1s; }
-        .card:nth-child(3) { animation-delay: 0.15s; }
-        .card:nth-child(4) { animation-delay: 0.2s; }
-
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* ===== СКРОЛЛ ===== */
-        ::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-        }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
     </style>
 </head>
 <body>
 
     <div class="container">
-
-        <!-- Тост -->
         <div class="toast" id="toast"></div>
 
         <!-- Шапка -->
@@ -390,7 +325,7 @@
             <div class="subtitle">Ваш ягодный ИИ-помощник</div>
         </div>
 
-        <!-- Статус подписки -->
+        <!-- Статус -->
         <div class="card">
             <div class="card-header">
                 <h3>📊 Статус подписки</h3>
@@ -409,27 +344,22 @@
                 <h3>🆓 Бесплатные модели</h3>
                 <span class="count">бесплатно</span>
             </div>
-
             <button class="model-btn" data-model="openrouter/free" onclick="selectModel('openrouter/free')">
                 <span class="name"><span class="emoji">🧠</span> Лучшая (роутер)</span>
                 <span class="badge badge-free">FREE</span>
             </button>
-
             <button class="model-btn" data-model="openai/gpt-oss-120b:free" onclick="selectModel('openai/gpt-oss-120b:free')">
                 <span class="name"><span class="emoji">💻</span> GPT-OSS 120B</span>
                 <span class="badge badge-free">FREE</span>
             </button>
-
             <button class="model-btn" data-model="google/gemma-4-31b-it:free" onclick="selectModel('google/gemma-4-31b-it:free')">
                 <span class="name"><span class="emoji">📊</span> Gemma 4 31B</span>
                 <span class="badge badge-free">FREE</span>
             </button>
-
             <button class="model-btn" data-model="poolside/laguna-m.1-20260312:free" onclick="selectModel('poolside/laguna-m.1-20260312:free')">
                 <span class="name"><span class="emoji">🎯</span> Laguna M.1</span>
                 <span class="badge badge-free">FREE</span>
             </button>
-
             <button class="model-btn" data-model="cohere/north-mini-code-20260617:free" onclick="selectModel('cohere/north-mini-code-20260617:free')">
                 <span class="name"><span class="emoji">🔧</span> North Mini Code</span>
                 <span class="badge badge-free">FREE</span>
@@ -442,17 +372,14 @@
                 <h3>⭐ Премиум-модели</h3>
                 <span class="count">по подписке</span>
             </div>
-
             <button class="model-btn" data-model="openai/gpt-5.5" onclick="selectModel('openai/gpt-5.5')">
                 <span class="name"><span class="emoji">🔥</span> GPT-5.5</span>
                 <span class="badge badge-premium">PREMIUM</span>
             </button>
-
             <button class="model-btn" data-model="anthropic/claude-4.7-opus" onclick="selectModel('anthropic/claude-4.7-opus')">
                 <span class="name"><span class="emoji">👑</span> Claude Opus 4.7</span>
                 <span class="badge badge-premium">PREMIUM</span>
             </button>
-
             <button class="model-btn" data-model="google/gemini-3.1-pro" onclick="selectModel('google/gemini-3.1-pro')">
                 <span class="name"><span class="emoji">💎</span> Gemini 3.1 Pro</span>
                 <span class="badge badge-premium">PREMIUM</span>
@@ -469,23 +396,15 @@
     </div>
 
     <script>
-        // ============================================
-        // 1. ИНИЦИАЛИЗАЦИЯ
-        // ============================================
         const tg = window.Telegram.WebApp;
         tg.ready();
         tg.expand();
 
-        // Данные пользователя
         const user = tg.initDataUnsafe?.user || { id: 0, username: 'guest' };
         console.log('👤 Пользователь:', user);
 
-        // Состояние
         let selectedModel = null;
 
-        // ============================================
-        // 2. ТОСТ-УВЕДОМЛЕНИЯ
-        // ============================================
         function showToast(text, duration = 2500) {
             const toast = document.getElementById('toast');
             toast.textContent = text;
@@ -496,23 +415,15 @@
             }, duration);
         }
 
-        // ============================================
-        // 3. ВЫБОР МОДЕЛИ (внутри приложения)
-        // ============================================
         function selectModel(modelId) {
             selectedModel = modelId;
-
-            // Находим название модели
             const btn = document.querySelector(`[data-model="${modelId}"]`);
             const name = btn ? btn.querySelector('.name').textContent.trim() : modelId;
 
-            // Убираем выделение со всех
             document.querySelectorAll('.model-btn').forEach(b => b.classList.remove('selected'));
 
-            // Выделяем выбранную
             if (btn) {
                 btn.classList.add('selected');
-                // Меняем бейдж
                 const badge = btn.querySelector('.badge');
                 if (badge) {
                     const originalText = badge.textContent;
@@ -525,10 +436,8 @@
                 }
             }
 
-            // Показываем уведомление
             showToast(`🍓 Выбрана модель: ${name}`, 2000);
 
-            // Отправляем данные в бот (чтобы он знал, какая модель выбрана)
             tg.sendData(JSON.stringify({
                 action: 'select_model',
                 model: modelId
@@ -537,9 +446,6 @@
             console.log(`✅ Выбрана модель: ${name} (${modelId})`);
         }
 
-        // ============================================
-        // 4. ПОДПИСКА
-        // ============================================
         function buySubscription() {
             showToast('💎 Открываем страницу оплаты...', 2000);
             tg.sendData(JSON.stringify({
@@ -547,65 +453,32 @@
             }));
         }
 
-        // ============================================
-        // 5. ОТКРЫТЬ ЧАТ
-        // ============================================
         function openChat() {
             showToast('💬 Открываем чат...', 1500);
             tg.sendData(JSON.stringify({
                 action: 'open_chat'
             }));
-            // Закрываем приложение через секунду
             setTimeout(() => {
                 tg.close();
             }, 800);
         }
 
-        // ============================================
-        // 6. ЗАКРЫТЬ
-        // ============================================
         function closeApp() {
             tg.close();
         }
 
-        // ============================================
-        // 7. ЗАГРУЗКА СТАТУСА ПОДПИСКИ
-        // ============================================
-        // Пробуем получить статус через бота (если есть)
-        // Если нет — показываем заглушку
+        // Загрузка статуса
         setTimeout(() => {
-            // Здесь можно сделать запрос к твоему API
-            // Пока просто показываем демо-статус
             const statusDisplay = document.getElementById('statusDisplay');
             const statusBadge = document.getElementById('statusBadge');
-
-            // Можно запросить статус через tg.sendData и обработать ответ
-            // Но для демо оставим как есть
             statusDisplay.textContent = '🔴 Нет подписки';
             statusDisplay.className = 'value status-inactive';
             statusBadge.textContent = '🔴 Нет';
         }, 500);
 
-        // ============================================
-        // 8. ГОРЯЧИЕ КЛАВИШИ
-        // ============================================
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeApp();
-            }
+            if (e.key === 'Escape') closeApp();
         });
-
-        // ============================================
-        // 9. АВТОВЫБОР ПЕРВОЙ МОДЕЛИ (опционально)
-        // ============================================
-        // Раскомментируй, если хочешь авто-выбор
-        // setTimeout(() => {
-        //     const firstBtn = document.querySelector('.model-btn');
-        //     if (firstBtn) {
-        //         const modelId = firstBtn.dataset.model;
-        //         selectModel(modelId);
-        //     }
-        // }, 300);
 
         console.log('🍓 KryxMind AI Mini App загружен!');
         console.log('👤 User ID:', user.id);
