@@ -16,19 +16,50 @@
         }
         .container { max-width: 420px; margin: 0 auto; }
 
-        .header { text-align: center; padding: 10px 0; }
-        .header h1 {
-            font-size: 22px; font-weight: 900;
+        /* ===== ШАПКА ===== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header-left h1 {
+            font-size: 20px;
+            font-weight: 900;
             background: linear-gradient(135deg, #ff6b6b, #ffd93d, #6bcb77, #4dabf7);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        .user-info {
+            text-align: right;
+            font-size: 12px;
+            line-height: 1.3;
+        }
+        .user-info .name {
+            color: #fff;
+            font-weight: 600;
+        }
+        .user-info .status {
+            font-size: 10px;
+            padding: 2px 10px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        .status-premium { background: rgba(107, 203, 119, 0.2); color: #6bcb77; }
+        .status-free { background: rgba(255, 107, 107, 0.15); color: #ff6b6b; }
 
+        /* ===== МОДЕЛИ ===== */
         .model-selector {
             display: flex;
             gap: 6px;
             flex-wrap: wrap;
-            margin: 8px 0 12px;
+            margin: 10px 0 12px;
         }
         .model-btn {
             padding: 6px 12px;
@@ -50,13 +81,31 @@
         .model-btn.premium {
             border-color: rgba(255, 217, 61, 0.3);
         }
+        .model-btn.premium.locked {
+            opacity: 0.4;
+            cursor: not-allowed;
+            border-color: rgba(255, 107, 107, 0.2);
+        }
+        .model-btn .badge {
+            font-size: 8px;
+            padding: 1px 8px;
+            border-radius: 10px;
+            margin-left: 4px;
+            background: rgba(255, 217, 61, 0.15);
+            color: #ffd93d;
+        }
+        .model-btn .badge.free {
+            background: rgba(107, 203, 119, 0.15);
+            color: #6bcb77;
+        }
 
+        /* ===== ЧАТ ===== */
         .chat-container {
             background: rgba(255,255,255,0.03);
             border-radius: 16px;
             border: 1px solid rgba(255,255,255,0.05);
             padding: 10px;
-            height: 60vh;
+            height: 55vh;
             display: flex;
             flex-direction: column;
         }
@@ -105,6 +154,7 @@
             outline: none;
         }
         .input-area input::placeholder { color: rgba(255,255,255,0.25); }
+        .input-area input:disabled { opacity: 0.3; }
         .input-area button {
             padding: 10px 18px;
             border: none;
@@ -115,7 +165,9 @@
             cursor: pointer;
         }
         .input-area button:active { transform: scale(0.95); }
+        .input-area button:disabled { opacity: 0.3; cursor: not-allowed; }
 
+        /* ===== КНОПКИ ДЕЙСТВИЙ ===== */
         .actions {
             display: flex;
             gap: 8px;
@@ -135,18 +187,67 @@
         }
         .actions button:active { background: rgba(255,255,255,0.08); }
         .actions button.danger { color: #ff6b6b; border-color: rgba(255,107,107,0.2); }
-        .actions button.warning { color: #ffd93d; border-color: rgba(255,217,61,0.2); }
-
-        .loading {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid rgba(255,255,255,0.1);
-            border-top: 2px solid #fff;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+        .actions button.primary {
+            background: linear-gradient(135deg, #ff6b6b, #ff8a5c);
+            color: #fff;
+            border: none;
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* ===== МОДАЛКА ПОДПИСКИ ===== */
+        .modal {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            backdrop-filter: blur(8px);
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: #1a1a3e;
+            padding: 24px;
+            border-radius: 20px;
+            max-width: 340px;
+            width: 90%;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .modal-content h3 {
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #ffd93d, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .modal-content .plan {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            margin: 6px 0;
+            background: rgba(255,255,255,0.04);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.06);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .modal-content .plan:active { transform: scale(0.97); background: rgba(255,255,255,0.08); }
+        .modal-content .plan .price { color: #ffd93d; font-weight: 700; font-size: 16px; }
+        .modal-content .plan .days { color: rgba(255,255,255,0.4); font-size: 12px; }
+        .modal-content .close-btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 12px;
+            border-radius: 12px;
+            border: none;
+            background: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.4);
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .modal-content .close-btn:active { background: rgba(255,255,255,0.1); }
 
         .toast {
             position: fixed; bottom: 20px; left: 50%;
@@ -165,37 +266,17 @@
             text-align: center;
         }
         .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-        
-        .modal {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.7);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 200;
-            backdrop-filter: blur(8px);
+
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-top: 2px solid #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
         }
-        .modal.active { display: flex; }
-        .modal-content {
-            background: #1a1a3e;
-            padding: 24px;
-            border-radius: 20px;
-            max-width: 320px;
-            width: 90%;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.06);
-        }
-        .modal-content h3 { margin-bottom: 12px; color: #ff6b6b; }
-        .modal-content p { font-size: 14px; color: rgba(255,255,255,0.7); margin-bottom: 16px; }
-        .modal-buttons { display: flex; gap: 10px; }
-        .modal-buttons button {
-            flex: 1; padding: 12px; border-radius: 12px; border: none;
-            font-weight: 700; cursor: pointer; font-size: 14px;
-        }
-        .modal-buttons .confirm { background: #ff6b6b; color: #fff; }
-        .modal-buttons .cancel { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.6); }
-        .modal-buttons button:active { transform: scale(0.95); }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -203,64 +284,183 @@
     <div class="container">
         <div class="toast" id="toast"></div>
 
-        <!-- Модальное окно для /clearall -->
-        <div class="modal" id="clearallModal">
+        <!-- МОДАЛКА ПОДПИСКИ -->
+        <div class="modal" id="subscriptionModal">
             <div class="modal-content">
-                <h3>⚠️ ВНИМАНИЕ!</h3>
-                <p>Ты собираешься удалить ВСЮ историю переписки у ВСЕХ пользователей.<br><br>Это действие НЕОБРАТИМО!</p>
-                <div class="modal-buttons">
-                    <button class="confirm" onclick="confirmClearAll()">✅ УДАЛИТЬ ВСЁ</button>
-                    <button class="cancel" onclick="closeModal()">❌ ОТМЕНА</button>
+                <h3>💎 Купить подписку</h3>
+                <div class="plan" onclick="buyPlan(7, 150)">
+                    <span>7 дней</span>
+                    <span class="price">150 ₽</span>
                 </div>
+                <div class="plan" onclick="buyPlan(30, 500)">
+                    <span>30 дней</span>
+                    <span class="price">500 ₽</span>
+                </div>
+                <div class="plan" onclick="buyPlan(90, 1200)">
+                    <span>90 дней</span>
+                    <span class="price">1200 ₽</span>
+                </div>
+                <button class="close-btn" onclick="closeSubscriptionModal()">❌ Закрыть</button>
             </div>
         </div>
 
+        <!-- ===== ШАПКА ===== -->
         <div class="header">
-            <h1>🍓 KryxMind AI</h1>
+            <div class="header-left">
+                <h1>🍓 KryxMind</h1>
+            </div>
+            <div class="user-info">
+                <div class="name" id="userName">👤 Загрузка...</div>
+                <span class="status status-free" id="userStatus">🔴 Бесплатный</span>
+            </div>
         </div>
 
-        <!-- МОДЕЛИ -->
-        <div class="model-selector">
-            <button class="model-btn active" data-model="openrouter/free" onclick="selectModel('openrouter/free')">🧠 Лучшая</button>
-            <button class="model-btn premium" data-model="anthropic/claude-4.7-opus" onclick="selectModel('anthropic/claude-4.7-opus')">👑 Claude</button>
-            <button class="model-btn premium" data-model="deepseek/deepseek-v4-flash" onclick="selectModel('deepseek/deepseek-v4-flash')">🚀 DeepSeek V4</button>
-            <button class="model-btn premium" data-model="google/gemini-3-pro-image-preview" onclick="selectModel('google/gemini-3-pro-image-preview')">🍌 Nano Pro</button>
-            <button class="model-btn premium" data-model="google/gemini-3.1-flash-image-preview" onclick="selectModel('google/gemini-3.1-flash-image-preview')">🍌🚀 Nano 2</button>
+        <!-- ===== МОДЕЛИ ===== -->
+        <div class="model-selector" id="modelSelector">
+            <button class="model-btn active" data-model="openrouter/free" data-premium="false" onclick="selectModel('openrouter/free')">
+                🧠 Лучшая <span class="badge free">FREE</span>
+            </button>
+            <button class="model-btn premium locked" data-model="anthropic/claude-4.7-opus" data-premium="true" onclick="selectModel('anthropic/claude-4.7-opus')">
+                👑 Claude <span class="badge">⭐</span>
+            </button>
+            <button class="model-btn premium locked" data-model="deepseek/deepseek-v4-flash" data-premium="true" onclick="selectModel('deepseek/deepseek-v4-flash')">
+                🚀 DeepSeek V4 <span class="badge">⭐</span>
+            </button>
+            <button class="model-btn premium locked" data-model="google/gemini-3-pro-image-preview" data-premium="true" onclick="selectModel('google/gemini-3-pro-image-preview')">
+                🍌 Nano Pro <span class="badge">⭐</span>
+            </button>
+            <button class="model-btn premium locked" data-model="google/gemini-3.1-flash-image-preview" data-premium="true" onclick="selectModel('google/gemini-3.1-flash-image-preview')">
+                🍌🚀 Nano 2 <span class="badge">⭐</span>
+            </button>
         </div>
 
-        <!-- ЧАТ -->
+        <!-- ===== ЧАТ ===== -->
         <div class="chat-container">
             <div class="chat-messages" id="chatMessages">
-                <div class="msg bot">🍓 Выбери модель и задавай вопросы.</div>
+                <div class="msg bot">🍓 Привет! Выбери модель и задавай вопросы.</div>
             </div>
             <div class="input-area">
                 <input type="text" id="chatInput" placeholder="Напиши сообщение..." onkeydown="if(event.key==='Enter') sendMessage()">
-                <button onclick="sendMessage()">📤</button>
+                <button onclick="sendMessage()" id="sendBtn">📤</button>
             </div>
         </div>
 
-        <!-- ДЕЙСТВИЯ -->
+        <!-- ===== ДЕЙСТВИЯ ===== -->
         <div class="actions">
-            <button onclick="clearChat()" class="danger">🗑️ /clear</button>
-            <button onclick="openClearAllModal()" class="warning">⚠️ /clearall</button>
+            <button onclick="clearChat()" class="danger">🗑️ Очистить</button>
+            <button onclick="openSubscriptionModal()" class="primary">💎 Купить подписку</button>
             <button onclick="closeApp()">❌ Закрыть</button>
         </div>
     </div>
 
     <script>
+        // ============================================
+        // 1. ИНИЦИАЛИЗАЦИЯ
+        // ============================================
         const tg = window.Telegram.WebApp;
         tg.ready();
         tg.expand();
 
-        // ============================================
-        // КОНФИГ
-        // ============================================
-        const OPENROUTER_KEY = 'sk-or-v1-ТВОЙ_КЛЮЧ_СЮДА'; // 🔥 ЗАМЕНИ НА СВОЙ КЛЮЧ!
-        let selectedModel = 'openrouter/free';
-        let isProcessing = false;
+        const user = tg.initDataUnsafe?.user || { id: 0, username: 'Guest', first_name: 'Гость' };
+        const userName = user.first_name || user.username || 'Гость';
+        document.getElementById('userName').textContent = '👤 ' + userName;
 
         // ============================================
-        // ТОСТ
+        // 2. КОНФИГ
+        // ============================================
+        // 🔥 ЗАМЕНИ НА СВОЙ КЛЮЧ
+        const OPENROUTER_KEY = 'sk-or-v1-ТВОЙ_КЛЮЧ_СЮДА';
+        
+        // ============================================
+        // 3. ПОДПИСКА (храним в localStorage)
+        // ============================================
+        let hasPremium = false;
+        let premiumExpires = null;
+
+        function loadSubscription() {
+            const data = localStorage.getItem('kryxmind_subscription');
+            if (data) {
+                try {
+                    const parsed = JSON.parse(data);
+                    if (parsed.expires && new Date(parsed.expires) > new Date()) {
+                        hasPremium = true;
+                        premiumExpires = parsed.expires;
+                        return true;
+                    } else {
+                        localStorage.removeItem('kryxmind_subscription');
+                    }
+                } catch(e) {}
+            }
+            hasPremium = false;
+            premiumExpires = null;
+            return false;
+        }
+
+        function saveSubscription(days) {
+            const expires = new Date();
+            expires.setDate(expires.getDate() + days);
+            const data = { expires: expires.toISOString() };
+            localStorage.setItem('kryxmind_subscription', JSON.stringify(data));
+            hasPremium = true;
+            premiumExpires = expires.toISOString();
+            updateUI();
+        }
+
+        function updateUI() {
+            const statusEl = document.getElementById('userStatus');
+            if (hasPremium) {
+                statusEl.textContent = '🟢 Премиум';
+                statusEl.className = 'status status-premium';
+                // Разблокируем премиум-модели
+                document.querySelectorAll('.model-btn.premium').forEach(btn => {
+                    btn.classList.remove('locked');
+                    btn.style.opacity = '1';
+                    btn.style.cursor = 'pointer';
+                });
+            } else {
+                statusEl.textContent = '🔴 Бесплатный';
+                statusEl.className = 'status status-free';
+                // Блокируем премиум-модели
+                document.querySelectorAll('.model-btn.premium').forEach(btn => {
+                    btn.classList.add('locked');
+                    btn.style.opacity = '0.4';
+                    btn.style.cursor = 'not-allowed';
+                });
+                // Если выбрана премиум-модель — сбрасываем на бесплатную
+                const active = document.querySelector('.model-btn.active');
+                if (active && active.dataset.premium === 'true') {
+                    selectModel('openrouter/free');
+                }
+            }
+        }
+
+        // ============================================
+        // 4. МОДАЛКА ПОДПИСКИ
+        // ============================================
+        function openSubscriptionModal() {
+            document.getElementById('subscriptionModal').classList.add('active');
+        }
+        function closeSubscriptionModal() {
+            document.getElementById('subscriptionModal').classList.remove('active');
+        }
+
+        function buyPlan(days, price) {
+            showToast('💎 Оплата ' + days + ' дней за ' + price + ' ₽', 1500);
+            // В реальном проекте здесь интеграция с платежами
+            // Пока тестовая активация:
+            saveSubscription(days);
+            closeSubscriptionModal();
+            showToast('✅ Подписка активирована на ' + days + ' дней!', 2000);
+            // Отправляем в бота для записи в БД
+            tg.sendData(JSON.stringify({
+                action: 'buy_subscription',
+                days: days,
+                price: price
+            }));
+        }
+
+        // ============================================
+        // 5. ТОСТ
         // ============================================
         function showToast(text, duration = 2000) {
             const toast = document.getElementById('toast');
@@ -273,44 +473,36 @@
         }
 
         // ============================================
-        // МОДАЛЬНОЕ ОКНО
+        // 6. ВЫБОР МОДЕЛИ
         // ============================================
-        function openClearAllModal() {
-            document.getElementById('clearallModal').classList.add('active');
-        }
-        function closeModal() {
-            document.getElementById('clearallModal').classList.remove('active');
-        }
-        function confirmClearAll() {
-            closeModal();
-            localStorage.removeItem('chatHistory');
-            // Отправляем команду боту
-            tg.sendData(JSON.stringify({ action: 'clearall' }));
-            showToast('🗑️ Вся история удалена!', 2000);
-            const container = document.getElementById('chatMessages');
-            container.innerHTML = `<div class="msg bot">🍓 Вся история удалена! Начинай заново.</div>`;
-        }
+        let selectedModel = 'openrouter/free';
 
-        // ============================================
-        // ВЫБОР МОДЕЛИ
-        // ============================================
         function selectModel(modelId) {
+            const btn = document.querySelector(`[data-model="${modelId}"]`);
+            if (!btn) return;
+            
+            // Проверка на премиум
+            if (btn.dataset.premium === 'true' && !hasPremium) {
+                showToast('⛔ Это премиум-модель! Купи подписку.', 2000);
+                openSubscriptionModal();
+                return;
+            }
+
             selectedModel = modelId;
             document.querySelectorAll('.model-btn').forEach(b => b.classList.remove('active'));
-            const btn = document.querySelector(`[data-model="${modelId}"]`);
-            if (btn) btn.classList.add('active');
+            btn.classList.add('active');
             showToast('🍓 Модель выбрана', 1000);
         }
 
         // ============================================
-        // ЧАТ
+        // 7. ЧАТ
         // ============================================
         function addMessage(text, isUser = false) {
             const container = document.getElementById('chatMessages');
             const msg = document.createElement('div');
             msg.className = `msg ${isUser ? 'user' : 'bot'}`;
             const time = new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-            msg.innerHTML = `${text}<span class="time">${time}</span>`;
+            msg.innerHTML = text + `<span class="time">${time}</span>`;
             container.appendChild(msg);
             container.scrollTop = container.scrollHeight;
 
@@ -330,7 +522,7 @@
             history.forEach(msg => {
                 const div = document.createElement('div');
                 div.className = `msg ${msg.isUser ? 'user' : 'bot'}`;
-                div.innerHTML = `${msg.text}<span class="time">${msg.time}</span>`;
+                div.innerHTML = msg.text + `<span class="time">${msg.time}</span>`;
                 container.appendChild(div);
             });
             container.scrollTop = container.scrollHeight;
@@ -341,17 +533,26 @@
             const container = document.getElementById('chatMessages');
             container.innerHTML = `<div class="msg bot">🍓 История очищена. Задавай вопросы!</div>`;
             showToast('🗑️ Чат очищен', 1500);
-            // Отправляем боту
-            tg.sendData(JSON.stringify({ action: 'clear' }));
         }
 
         // ============================================
-        // ОТПРАВКА СООБЩЕНИЯ (ИСПРАВЛЕННАЯ!)
+        // 8. ОТПРАВКА СООБЩЕНИЯ
         // ============================================
+        let isProcessing = false;
+
         async function sendMessage() {
             const input = document.getElementById('chatInput');
             const text = input.value.trim();
             if (!text || isProcessing) return;
+            
+            // Проверка премиум-модели
+            const activeBtn = document.querySelector('.model-btn.active');
+            if (activeBtn && activeBtn.dataset.premium === 'true' && !hasPremium) {
+                showToast('⛔ Это премиум-модель! Купи подписку.', 2000);
+                openSubscriptionModal();
+                return;
+            }
+
             input.value = '';
             addMessage(text, true);
             isProcessing = true;
@@ -397,10 +598,15 @@
         }
 
         // ============================================
-        // ЗАГРУЗКА
+        // 9. ЗАГРУЗКА
         // ============================================
+        loadSubscription();
         loadChatHistory();
-        console.log('🍓 KryxMind AI v3.0 загружен!');
+        updateUI();
+
+        console.log('🍓 KryxMind AI v4.0 загружен!');
+        console.log('👤 Пользователь:', user);
+        console.log('💎 Премиум:', hasPremium);
     </script>
 </body>
 </html>
