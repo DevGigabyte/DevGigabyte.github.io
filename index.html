@@ -6,12 +6,7 @@
     <title>KryxMind AI</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(145deg, #0f0c29 0%, #1a1a3e 50%, #2d1b3d 100%);
@@ -20,7 +15,6 @@
             padding: 16px;
             overflow-x: hidden;
         }
-
         body::before {
             content: '';
             position: fixed;
@@ -33,39 +27,18 @@
             z-index: 0;
             animation: backgroundFloat 20s ease-in-out infinite alternate;
         }
-
         @keyframes backgroundFloat {
             0% { transform: translate(0, 0) rotate(0deg); }
             100% { transform: translate(-2%, -2%) rotate(3deg); }
         }
-
-        .container {
-            max-width: 420px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
+        .container { max-width: 420px; margin: 0 auto; position: relative; z-index: 1; }
 
         /* ===== ШАПКА ===== */
-        .header {
-            text-align: center;
-            padding: 20px 0 10px;
-        }
-
-        .header .logo {
-            font-size: 48px;
-            display: block;
-            animation: pulse 2.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
+        .header { text-align: center; padding: 20px 0 10px; }
+        .header .logo { font-size: 48px; display: block; animation: pulse 2.5s ease-in-out infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         .header h1 {
-            font-size: 28px;
-            font-weight: 900;
+            font-size: 28px; font-weight: 900;
             background: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 40%, #6bcb77 70%, #4dabf7 100%);
             background-size: 300% 300%;
             -webkit-background-clip: text;
@@ -74,20 +47,8 @@
             margin-top: 4px;
             letter-spacing: -0.5px;
         }
-
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 100% 50%; }
-        }
-
-        .header .subtitle {
-            color: rgba(255,255,255,0.4);
-            font-size: 13px;
-            font-weight: 500;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-top: 2px;
-        }
+        @keyframes gradientMove { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
+        .header .subtitle { color: rgba(255,255,255,0.4); font-size: 13px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
 
         /* ===== КАРТОЧКИ ===== */
         .card {
@@ -100,217 +61,179 @@
             box-shadow: 0 8px 32px rgba(0,0,0,0.3);
             animation: fadeUp 0.6s ease both;
         }
-
         .card:nth-child(1) { animation-delay: 0.05s; }
         .card:nth-child(2) { animation-delay: 0.1s; }
         .card:nth-child(3) { animation-delay: 0.15s; }
         .card:nth-child(4) { animation-delay: 0.2s; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 12px;
-        }
-
-        .card-header h3 {
-            font-size: 15px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .card-header .count {
-            font-size: 11px;
-            background: rgba(255,255,255,0.06);
-            padding: 2px 10px;
-            border-radius: 20px;
-            color: rgba(255,255,255,0.4);
-        }
+        .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .card-header h3 { font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+        .card-header .count { font-size: 11px; background: rgba(255,255,255,0.06); padding: 2px 10px; border-radius: 20px; color: rgba(255,255,255,0.4); }
 
         /* ===== СТАТУС ===== */
-        .status-box {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 18px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 14px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .status-box .label {
-            color: rgba(255,255,255,0.4);
-            font-size: 13px;
-        }
-
-        .status-box .value {
-            font-weight: 700;
-            font-size: 14px;
-            padding: 4px 14px;
-            border-radius: 20px;
-        }
-
-        .status-active {
-            color: #6bcb77;
-            background: rgba(107, 203, 119, 0.15);
-        }
-
-        .status-inactive {
-            color: #ff6b6b;
-            background: rgba(255, 107, 107, 0.15);
-        }
+        .status-box { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; background: rgba(255,255,255,0.03); border-radius: 14px; border: 1px solid rgba(255,255,255,0.05); }
+        .status-box .label { color: rgba(255,255,255,0.4); font-size: 13px; }
+        .status-box .value { font-weight: 700; font-size: 14px; padding: 4px 14px; border-radius: 20px; }
+        .status-active { color: #6bcb77; background: rgba(107, 203, 119, 0.15); }
+        .status-inactive { color: #ff6b6b; background: rgba(255, 107, 107, 0.15); }
 
         /* ===== КНОПКИ МОДЕЛЕЙ ===== */
         .model-btn {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            padding: 14px 16px;
-            margin: 6px 0;
+            display: flex; justify-content: space-between; align-items: center;
+            width: 100%; padding: 14px 16px; margin: 6px 0;
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.05);
             border-radius: 14px;
+            color: #fff; font-size: 14px; font-weight: 500;
+            cursor: pointer; transition: all 0.2s ease;
+        }
+        .model-btn:active { transform: scale(0.97); background: rgba(255,255,255,0.06); }
+        .model-btn .name { display: flex; align-items: center; gap: 10px; }
+        .model-btn .name .emoji { font-size: 18px; width: 28px; text-align: center; }
+        .model-btn .badge { font-size: 10px; font-weight: 700; padding: 3px 12px; border-radius: 20px; letter-spacing: 0.3px; text-transform: uppercase; }
+        .badge-free { background: rgba(107, 203, 119, 0.15); color: #6bcb77; border: 1px solid rgba(107, 203, 119, 0.15); }
+        .badge-premium { background: rgba(255, 217, 61, 0.15); color: #ffd93d; border: 1px solid rgba(255, 217, 61, 0.15); }
+        .badge-selected { background: rgba(77, 171, 247, 0.2); color: #4dabf7; border: 1px solid rgba(77, 171, 247, 0.2); }
+        .model-btn.selected { border-color: rgba(77, 171, 247, 0.3); background: rgba(77, 171, 247, 0.05); }
+
+        /* ===== ЧАТ ВНУТРИ ПРИЛОЖЕНИЯ ===== */
+        .chat-area {
+            display: none;
+            margin-top: 12px;
+        }
+        .chat-area.active {
+            display: block;
+        }
+        .chat-messages {
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 10px;
+        }
+        .chat-message {
+            padding: 8px 12px;
+            margin: 4px 0;
+            border-radius: 12px;
+            max-width: 85%;
+            word-wrap: break-word;
+            font-size: 14px;
+        }
+        .chat-message.user {
+            background: rgba(255, 107, 107, 0.2);
+            margin-left: auto;
+            border-bottom-right-radius: 4px;
+        }
+        .chat-message.bot {
+            background: rgba(77, 171, 247, 0.15);
+            margin-right: auto;
+            border-bottom-left-radius: 4px;
+        }
+        .chat-message .time {
+            font-size: 10px;
+            opacity: 0.4;
+            display: block;
+            margin-top: 4px;
+        }
+        .chat-input-area {
+            display: flex;
+            gap: 8px;
+        }
+        .chat-input-area input {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
             color: #fff;
             font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            outline: none;
         }
-
-        .model-btn:active {
-            transform: scale(0.97);
-            background: rgba(255,255,255,0.06);
-        }
-
-        .model-btn .name {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .model-btn .name .emoji {
-            font-size: 18px;
-            width: 28px;
-            text-align: center;
-        }
-
-        .model-btn .badge {
-            font-size: 10px;
-            font-weight: 700;
-            padding: 3px 12px;
-            border-radius: 20px;
-            letter-spacing: 0.3px;
-            text-transform: uppercase;
-        }
-
-        .badge-free {
-            background: rgba(107, 203, 119, 0.15);
-            color: #6bcb77;
-            border: 1px solid rgba(107, 203, 119, 0.15);
-        }
-
-        .badge-premium {
-            background: rgba(255, 217, 61, 0.15);
-            color: #ffd93d;
-            border: 1px solid rgba(255, 217, 61, 0.15);
-        }
-
-        .badge-selected {
-            background: rgba(77, 171, 247, 0.2);
-            color: #4dabf7;
-            border: 1px solid rgba(77, 171, 247, 0.2);
-        }
-
-        .model-btn.selected {
-            border-color: rgba(77, 171, 247, 0.3);
-            background: rgba(77, 171, 247, 0.05);
-        }
-
-        /* ===== КНОПКИ ДЕЙСТВИЙ ===== */
-        .btn-primary {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ff8a5c 100%);
+        .chat-input-area input::placeholder { color: rgba(255,255,255,0.3); }
+        .chat-input-area button {
+            padding: 12px 20px;
             border: none;
             border-radius: 14px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8a5c 100%);
             color: #fff;
-            font-size: 16px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s ease;
-            margin-top: 6px;
-            box-shadow: 0 4px 24px rgba(255, 107, 107, 0.25);
         }
+        .chat-input-area button:active { transform: scale(0.95); }
 
-        .btn-primary:active {
-            transform: scale(0.97);
-        }
-
-        .btn-secondary {
+        .btn-toggle-chat {
             width: 100%;
             padding: 14px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: 14px;
-            color: rgba(255,255,255,0.6);
+            color: #fff;
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
             margin-top: 8px;
         }
+        .btn-toggle-chat:active { transform: scale(0.97); background: rgba(255,255,255,0.1); }
 
-        .btn-secondary:active {
-            transform: scale(0.97);
-            background: rgba(255,255,255,0.06);
+        /* ===== КНОПКИ ДЕЙСТВИЙ ===== */
+        .btn-primary {
+            width: 100%; padding: 16px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8a5c 100%);
+            border: none; border-radius: 14px;
+            color: #fff; font-size: 16px; font-weight: 700;
+            cursor: pointer; transition: all 0.2s ease;
+            margin-top: 6px;
+            box-shadow: 0 4px 24px rgba(255, 107, 107, 0.25);
         }
+        .btn-primary:active { transform: scale(0.97); }
+        .btn-secondary {
+            width: 100%; padding: 14px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+            color: rgba(255,255,255,0.6);
+            font-size: 14px; font-weight: 600;
+            cursor: pointer; transition: all 0.2s ease;
+            margin-top: 8px;
+        }
+        .btn-secondary:active { transform: scale(0.97); background: rgba(255,255,255,0.06); }
 
         /* ===== ТОСТ ===== */
         .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
+            position: fixed; bottom: 30px; left: 50%;
             transform: translateX(-50%) translateY(100px);
             background: rgba(255,255,255,0.08);
             backdrop-filter: blur(20px);
-            padding: 14px 24px;
-            border-radius: 16px;
+            padding: 14px 24px; border-radius: 16px;
             border: 1px solid rgba(255,255,255,0.06);
-            color: #fff;
-            font-size: 14px;
-            font-weight: 500;
+            color: #fff; font-size: 14px; font-weight: 500;
             opacity: 0;
             transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-            z-index: 100;
-            max-width: 90%;
-            text-align: center;
+            z-index: 100; max-width: 90%; text-align: center;
             box-shadow: 0 12px 40px rgba(0,0,0,0.5);
         }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .footer {
-            text-align: center;
-            color: rgba(255,255,255,0.15);
-            font-size: 11px;
-            padding: 20px 0 10px;
-            letter-spacing: 1px;
-        }
-
+        .footer { text-align: center; color: rgba(255,255,255,0.15); font-size: 11px; padding: 20px 0 10px; letter-spacing: 1px; }
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-top: 2px solid #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -356,14 +279,6 @@
                 <span class="name"><span class="emoji">📊</span> Gemma 4 31B</span>
                 <span class="badge badge-free">FREE</span>
             </button>
-            <button class="model-btn" data-model="poolside/laguna-m.1-20260312:free" onclick="selectModel('poolside/laguna-m.1-20260312:free')">
-                <span class="name"><span class="emoji">🎯</span> Laguna M.1</span>
-                <span class="badge badge-free">FREE</span>
-            </button>
-            <button class="model-btn" data-model="cohere/north-mini-code-20260617:free" onclick="selectModel('cohere/north-mini-code-20260617:free')">
-                <span class="name"><span class="emoji">🔧</span> North Mini Code</span>
-                <span class="badge badge-free">FREE</span>
-            </button>
         </div>
 
         <!-- Премиум модели -->
@@ -384,18 +299,49 @@
                 <span class="name"><span class="emoji">💎</span> Gemini 3.1 Pro</span>
                 <span class="badge badge-premium">PREMIUM</span>
             </button>
+            <button class="model-btn" data-model="google/gemini-3-pro-image-preview" onclick="selectModel('google/gemini-3-pro-image-preview')">
+                <span class="name"><span class="emoji">🍌</span> Nano Banana Pro</span>
+                <span class="badge badge-premium">PREMIUM</span>
+            </button>
+            <button class="model-btn" data-model="google/gemini-3.1-flash-image-preview" onclick="selectModel('google/gemini-3.1-flash-image-preview')">
+                <span class="name"><span class="emoji">🍌🚀</span> Nano Banana 2</span>
+                <span class="badge badge-premium">PREMIUM</span>
+            </button>
+        </div>
+
+        <!-- Чат внутри приложения -->
+        <div class="card">
+            <div class="card-header">
+                <h3>💬 Чат с ИИ</h3>
+                <span class="count" id="modelDisplay">модель не выбрана</span>
+            </div>
+            <div id="chatArea" class="chat-area">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="chat-message bot">
+                        🍓 Привет! Я KryxMind AI. Выбери модель выше и задавай вопросы прямо здесь!
+                        <span class="time">только что</span>
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="chatInput" placeholder="Напиши сообщение..." onkeydown="if(event.key==='Enter') sendMessage()">
+                    <button onclick="sendMessage()">📤</button>
+                </div>
+            </div>
+            <button class="btn-toggle-chat" onclick="toggleChat()" id="toggleChatBtn">💬 Открыть чат</button>
         </div>
 
         <!-- Действия -->
         <div class="card">
-            <button class="btn-primary" onclick="openChat()">💬 Открыть чат</button>
             <button class="btn-secondary" onclick="closeApp()">❌ Закрыть приложение</button>
         </div>
 
-        <div class="footer">🍓 KryxMind AI • v2.0</div>
+        <div class="footer">🍓 KryxMind AI • v3.0 — всё внутри!</div>
     </div>
 
     <script>
+        // ============================================
+        // 1. ИНИЦИАЛИЗАЦИЯ
+        // ============================================
         const tg = window.Telegram.WebApp;
         tg.ready();
         tg.expand();
@@ -404,7 +350,12 @@
         console.log('👤 Пользователь:', user);
 
         let selectedModel = null;
+        let chatOpen = false;
+        let isProcessing = false;
 
+        // ============================================
+        // 2. ТОСТ
+        // ============================================
         function showToast(text, duration = 2500) {
             const toast = document.getElementById('toast');
             toast.textContent = text;
@@ -415,6 +366,9 @@
             }, duration);
         }
 
+        // ============================================
+        // 3. ВЫБОР МОДЕЛИ (только внутри)
+        // ============================================
         function selectModel(modelId) {
             selectedModel = modelId;
             const btn = document.querySelector(`[data-model="${modelId}"]`);
@@ -436,38 +390,113 @@
                 }
             }
 
-            showToast(`🍓 Выбрана модель: ${name}`, 2000);
+            document.getElementById('modelDisplay').textContent = `✅ ${name}`;
+            showToast(`🍓 Выбрана модель: ${name}`, 1500);
 
-            tg.sendData(JSON.stringify({
-                action: 'select_model',
-                model: modelId
-            }));
-
+            // НЕ ОТПРАВЛЯЕМ В БОТ! Всё внутри.
             console.log(`✅ Выбрана модель: ${name} (${modelId})`);
         }
 
+        // ============================================
+        // 4. ЧАТ ВНУТРИ ПРИЛОЖЕНИЯ
+        // ============================================
+        function toggleChat() {
+            const chatArea = document.getElementById('chatArea');
+            const btn = document.getElementById('toggleChatBtn');
+            chatOpen = !chatOpen;
+            chatArea.classList.toggle('active');
+            btn.textContent = chatOpen ? '❌ Закрыть чат' : '💬 Открыть чат';
+            if (chatOpen) {
+                document.getElementById('chatInput').focus();
+            }
+        }
+
+        function addMessage(text, isUser = false) {
+            const container = document.getElementById('chatMessages');
+            const msg = document.createElement('div');
+            msg.className = `chat-message ${isUser ? 'user' : 'bot'}`;
+            const time = new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+            msg.innerHTML = `${text}<span class="time">${time}</span>`;
+            container.appendChild(msg);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+            if (!selectedModel) {
+                showToast('⚠️ Сначала выбери модель!', 2000);
+                return;
+            }
+            if (isProcessing) return;
+
+            input.value = '';
+            addMessage(text, true);
+            isProcessing = true;
+
+            // Показываем индикатор загрузки
+            const container = document.getElementById('chatMessages');
+            const loadingMsg = document.createElement('div');
+            loadingMsg.className = 'chat-message bot';
+            loadingMsg.id = 'loadingMsg';
+            loadingMsg.innerHTML = `<span class="loading"></span> Думаю...`;
+            container.appendChild(loadingMsg);
+            container.scrollTop = container.scrollHeight;
+
+            try {
+                // Отправляем запрос к OpenRouter прямо из приложения
+                const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer sk-or-v1-ТВОЙ_КЛЮЧ_СЮДА', // Замени на свой ключ!
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: selectedModel,
+                        messages: [
+                            { role: 'user', content: text }
+                        ]
+                    })
+                });
+
+                const data = await response.json();
+                document.getElementById('loadingMsg')?.remove();
+
+                if (data.error) {
+                    addMessage(`❌ Ошибка: ${data.error.message || 'Неизвестная ошибка'}`, false);
+                } else if (data.choices && data.choices[0]) {
+                    const reply = data.choices[0].message.content;
+                    addMessage(reply, false);
+                } else {
+                    addMessage('❌ Неожиданный ответ от API', false);
+                }
+            } catch (error) {
+                document.getElementById('loadingMsg')?.remove();
+                addMessage(`❌ Ошибка сети: ${error.message}`, false);
+            }
+
+            isProcessing = false;
+        }
+
+        // ============================================
+        // 5. ПОДПИСКА (только уведомление)
+        // ============================================
         function buySubscription() {
-            showToast('💎 Открываем страницу оплаты...', 2000);
-            tg.sendData(JSON.stringify({
-                action: 'open_subscription'
-            }));
+            showToast('💎 Оплата подписки (временно вручную — напиши @KryxMindSupport)', 3000);
+            // Не отправляем в бот, просто показываем
         }
 
-        function openChat() {
-            showToast('💬 Открываем чат...', 1500);
-            tg.sendData(JSON.stringify({
-                action: 'open_chat'
-            }));
-            setTimeout(() => {
-                tg.close();
-            }, 800);
-        }
-
+        // ============================================
+        // 6. ЗАКРЫТЬ
+        // ============================================
         function closeApp() {
             tg.close();
         }
 
-        // Загрузка статуса
+        // ============================================
+        // 7. СТАТУС (заглушка)
+        // ============================================
         setTimeout(() => {
             const statusDisplay = document.getElementById('statusDisplay');
             const statusBadge = document.getElementById('statusBadge');
@@ -476,13 +505,15 @@
             statusBadge.textContent = '🔴 Нет';
         }, 500);
 
+        // ============================================
+        // 8. ГОРЯЧИЕ КЛАВИШИ
+        // ============================================
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closeApp();
         });
 
-        console.log('🍓 KryxMind AI Mini App загружен!');
+        console.log('🍓 KryxMind AI Mini App v3.0 — всё внутри!');
         console.log('👤 User ID:', user.id);
     </script>
-
 </body>
 </html>
