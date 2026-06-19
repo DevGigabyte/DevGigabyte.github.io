@@ -6,11 +6,7 @@
     <title>KryxMind AI</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #0f0c29;
@@ -18,16 +14,13 @@
             min-height: 100vh;
             padding: 12px;
         }
-        .container {
-            max-width: 420px;
-            margin: 0 auto;
-        }
+        .container { max-width: 420px; margin: 0 auto; }
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 8px 0 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
         .header-left h1 {
             font-size: 20px;
@@ -36,29 +29,16 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .user-info {
-            text-align: right;
-            font-size: 12px;
-            line-height: 1.3;
-        }
-        .user-info .name {
-            color: #fff;
-            font-weight: 600;
-        }
+        .user-info { text-align: right; font-size: 12px; line-height: 1.3; }
+        .user-info .name { color: #fff; font-weight: 600; }
         .user-info .status {
             font-size: 10px;
             padding: 2px 10px;
             border-radius: 20px;
             display: inline-block;
         }
-        .status-premium {
-            background: rgba(107, 203, 119, 0.2);
-            color: #6bcb77;
-        }
-        .status-free {
-            background: rgba(255, 107, 107, 0.15);
-            color: #ff6b6b;
-        }
+        .status-premium { background: rgba(107,203,119,0.2); color: #6bcb77; }
+        .status-free { background: rgba(255,107,107,0.15); color: #ff6b6b; }
         .model-selector {
             display: flex;
             gap: 6px;
@@ -68,8 +48,8 @@
         .model-btn {
             padding: 6px 12px;
             border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.04);
             color: #fff;
             font-size: 11px;
             font-weight: 500;
@@ -77,37 +57,33 @@
             transition: all 0.2s;
             flex: 1 0 auto;
         }
-        .model-btn:active {
-            transform: scale(0.95);
-        }
+        .model-btn:active { transform: scale(0.95); }
         .model-btn.active {
             border-color: #6bcb77;
-            background: rgba(107, 203, 119, 0.15);
+            background: rgba(107,203,119,0.15);
         }
-        .model-btn.premium {
-            border-color: rgba(255, 217, 61, 0.3);
-        }
+        .model-btn.premium { border-color: rgba(255,217,61,0.3); }
         .model-btn.premium.locked {
             opacity: 0.4;
             cursor: not-allowed;
-            border-color: rgba(255, 107, 107, 0.2);
+            border-color: rgba(255,107,107,0.2);
         }
         .model-btn .badge {
             font-size: 8px;
             padding: 1px 8px;
             border-radius: 10px;
             margin-left: 4px;
-            background: rgba(255, 217, 61, 0.15);
+            background: rgba(255,217,61,0.15);
             color: #ffd93d;
         }
         .model-btn .badge.free {
-            background: rgba(107, 203, 119, 0.15);
+            background: rgba(107,203,119,0.15);
             color: #6bcb77;
         }
         .chat-container {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255,255,255,0.03);
             border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255,255,255,0.05);
             padding: 10px;
             height: 55vh;
             display: flex;
@@ -119,13 +95,8 @@
             padding: 4px 6px;
             margin-bottom: 8px;
         }
-        .chat-messages::-webkit-scrollbar {
-            width: 4px;
-        }
-        .chat-messages::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-        }
+        .chat-messages::-webkit-scrollbar { width: 4px; }
+        .chat-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
         .msg {
             padding: 8px 14px;
             margin: 4px 0;
@@ -136,21 +107,16 @@
             line-height: 1.4;
         }
         .msg.user {
-            background: rgba(255, 107, 107, 0.2);
+            background: rgba(255,107,107,0.2);
             margin-left: auto;
             border-bottom-right-radius: 4px;
         }
         .msg.bot {
-            background: rgba(77, 171, 247, 0.12);
+            background: rgba(77,171,247,0.12);
             margin-right: auto;
             border-bottom-left-radius: 4px;
         }
-        .msg .time {
-            font-size: 10px;
-            opacity: 0.3;
-            display: block;
-            margin-top: 4px;
-        }
+        .msg .time { font-size: 10px; opacity: 0.3; display: block; margin-top: 4px; }
         .input-area {
             display: flex;
             gap: 8px;
@@ -159,15 +125,13 @@
             flex: 1;
             padding: 10px 14px;
             border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.04);
             color: #fff;
             font-size: 14px;
             outline: none;
         }
-        .input-area input::placeholder {
-            color: rgba(255, 255, 255, 0.25);
-        }
+        .input-area input::placeholder { color: rgba(255,255,255,0.25); }
         .input-area button {
             padding: 10px 18px;
             border: none;
@@ -177,9 +141,7 @@
             font-weight: 700;
             cursor: pointer;
         }
-        .input-area button:active {
-            transform: scale(0.95);
-        }
+        .input-area button:active { transform: scale(0.95); }
         .actions {
             display: flex;
             gap: 8px;
@@ -190,20 +152,15 @@
             flex: 1;
             padding: 10px;
             border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            background: rgba(255, 255, 255, 0.03);
-            color: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.03);
+            color: rgba(255,255,255,0.6);
             font-size: 12px;
             font-weight: 600;
             cursor: pointer;
         }
-        .actions button:active {
-            background: rgba(255, 255, 255, 0.08);
-        }
-        .actions button.danger {
-            color: #ff6b6b;
-            border-color: rgba(255, 107, 107, 0.2);
-        }
+        .actions button:active { background: rgba(255,255,255,0.08); }
+        .actions button.danger { color: #ff6b6b; border-color: rgba(255,107,107,0.2); }
         .actions button.primary {
             background: linear-gradient(135deg, #ff6b6b, #ff8a5c);
             color: #fff;
@@ -211,27 +168,22 @@
         }
         .modal {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 200;
             backdrop-filter: blur(8px);
         }
-        .modal.active {
-            display: flex;
-        }
+        .modal.active { display: flex; }
         .modal-content {
             background: #1a1a3e;
             padding: 24px;
             border-radius: 20px;
             max-width: 340px;
             width: 90%;
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255,255,255,0.06);
         }
         .modal-content h3 {
             text-align: center;
@@ -247,29 +199,22 @@
             align-items: center;
             padding: 12px 16px;
             margin: 6px 0;
-            background: rgba(255, 255, 255, 0.04);
+            background: rgba(255,255,255,0.04);
             border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255,255,255,0.06);
             cursor: pointer;
             transition: all 0.2s;
         }
-        .modal-content .plan:active {
-            transform: scale(0.97);
-            background: rgba(255, 255, 255, 0.08);
-        }
-        .modal-content .plan .price {
-            color: #ffd93d;
-            font-weight: 700;
-            font-size: 16px;
-        }
+        .modal-content .plan:active { transform: scale(0.97); background: rgba(255,255,255,0.08); }
+        .modal-content .plan .price { color: #ffd93d; font-weight: 700; font-size: 16px; }
         .modal-content .close-btn {
             width: 100%;
             padding: 12px;
             margin-top: 12px;
             border-radius: 12px;
             border: none;
-            background: rgba(255, 255, 255, 0.06);
-            color: rgba(255, 255, 255, 0.4);
+            background: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.4);
             font-weight: 600;
             cursor: pointer;
         }
@@ -278,11 +223,11 @@
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%) translateY(100px);
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255,255,255,0.08);
             backdrop-filter: blur(20px);
             padding: 10px 20px;
             border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255,255,255,0.06);
             color: #fff;
             font-size: 13px;
             opacity: 0;
@@ -291,35 +236,17 @@
             max-width: 90%;
             text-align: center;
         }
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
         .loading {
             display: inline-block;
             width: 16px;
             height: 16px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255,255,255,0.1);
             border-top: 2px solid #fff;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-        .toast.error {
-            border-color: rgba(255, 107, 107, 0.3);
-            background: rgba(255, 107, 107, 0.1);
-        }
-        .toast.success {
-            border-color: rgba(107, 203, 119, 0.3);
-            background: rgba(107, 203, 119, 0.1);
-        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -332,15 +259,15 @@
             <div class="modal-content">
                 <h3>💎 Купить подписку</h3>
                 <div class="plan" onclick="buyPlan(7, 150)">
-                    <span>7 дней — 150 ₽</span>
+                    <span>7 дней</span>
                     <span class="price">150 ₽</span>
                 </div>
                 <div class="plan" onclick="buyPlan(30, 500)">
-                    <span>30 дней — 500 ₽</span>
+                    <span>30 дней</span>
                     <span class="price">500 ₽</span>
                 </div>
                 <div class="plan" onclick="buyPlan(90, 1200)">
-                    <span>90 дней — 1200 ₽</span>
+                    <span>90 дней</span>
                     <span class="price">1200 ₽</span>
                 </div>
                 <button class="close-btn" onclick="closeSubscriptionModal()">❌ Закрыть</button>
@@ -354,7 +281,7 @@
             </div>
             <div class="user-info">
                 <div class="name" id="userName">👤 Загрузка...</div>
-                <span class="status status-free" id="userStatus">⏳ Загрузка</span>
+                <span class="status status-free" id="userStatus">🔴 Бесплатный</span>
             </div>
         </div>
 
@@ -380,11 +307,11 @@
         <!-- Чат -->
         <div class="chat-container">
             <div class="chat-messages" id="chatMessages">
-                <div class="msg bot">🍓 Загрузка приложения...</div>
+                <div class="msg bot">🍓 Выбери модель и задавай вопросы.</div>
             </div>
             <div class="input-area">
-                <input type="text" id="chatInput" placeholder="Напиши сообщение..." onkeydown="if(event.key==='Enter') sendMessage()" disabled>
-                <button onclick="sendMessage()" id="sendBtn" disabled>📤</button>
+                <input type="text" id="chatInput" placeholder="Напиши сообщение..." onkeydown="if(event.key==='Enter') sendMessage()">
+                <button onclick="sendMessage()">📤</button>
             </div>
         </div>
 
@@ -398,8 +325,12 @@
 
     <script>
         // ============================================
-        // 1. Telegram WebApp
+        // 1. КОНФИГ
         // ============================================
+        // 🔥 КЛЮЧ ПОДСТАВЛЯЕТСЯ ЧЕРЕЗ GITHUB ACTIONS
+        // НЕ ВСТАВЛЯЙ СЮДА РЕАЛЬНЫЙ КЛЮЧ ВРУЧНУЮ!
+        const OPENROUTER_KEY = '{{ OPENROUTER_API_KEY }}';
+
         const tg = window.Telegram.WebApp;
         tg.ready();
         tg.expand();
@@ -407,84 +338,12 @@
         const user = tg.initDataUnsafe?.user || { id: 0, username: 'Guest', first_name: 'Гость' };
         document.getElementById('userName').textContent = '👤 ' + (user.first_name || user.username || 'Гость');
 
-        // ============================================
-        // 2. Конфиг
-        // ============================================
-        let OPENROUTER_KEY = null;
         let hasPremium = false;
-        let premiumUntil = null;
+        let selectedModel = 'openrouter/free';
+        let isProcessing = false;
 
         // ============================================
-        // 3. ОБРАБОТКА ДАННЫХ ОТ БОТА (ГЛАВНОЕ!)
-        // ============================================
-        // Telegram WebApp позволяет получить данные от бота через событие
-        // Данные приходят как обычный текст, который нужно распарсить
-
-        // ВАЖНО: данные от бота приходят как ответ на WebAppData
-        // Мы можем их получить через tg.onEvent или через tg.WebApp.initData
-
-        // Самый надёжный способ — использовать tg.sendData и ждать ответ
-        // В Telegram Mini Apps ответ от бота приходит в виде сообщения,
-        // которое мы должны обработать
-
-        // Функция для получения конфига
-        function loadConfigFromBot() {
-            showToast('⏳ Загрузка конфига...', 1000);
-            tg.sendData(JSON.stringify({
-                action: 'get_config'
-            }));
-        }
-
-        // Обработчик входящих данных от бота
-        // В Telegram WebApp это работает через onEvent
-        if (typeof tg.onEvent === 'function') {
-            tg.onEvent('web_app_data', function(data) {
-                try {
-                    const config = JSON.parse(data);
-                    handleConfig(config);
-                } catch (e) {
-                    console.error('❌ Ошибка парсинга:', e);
-                    // Пробуем парсить как строку
-                    try {
-                        const cleaned = data.replace(/'/g, '"');
-                        const config = JSON.parse(cleaned);
-                        handleConfig(config);
-                    } catch (e2) {
-                        showToast('❌ Ошибка получения конфига', 2000);
-                    }
-                }
-            });
-        }
-
-        // Обработка полученного конфига
-        function handleConfig(config) {
-            OPENROUTER_KEY = config.openrouter_key || null;
-            hasPremium = config.has_premium || false;
-            premiumUntil = config.premium_until || null;
-
-            document.getElementById('userName').textContent = '👤 ' + (config.first_name || 'Пользователь');
-
-            // Обновляем UI
-            updateUI();
-
-            // Включаем чат
-            document.getElementById('chatInput').disabled = false;
-            document.getElementById('sendBtn').disabled = false;
-            document.getElementById('chatInput').placeholder = 'Напиши сообщение...';
-
-            // Убираем сообщение о загрузке
-            const container = document.getElementById('chatMessages');
-            if (container.children.length === 1 && container.children[0].classList.contains('bot')) {
-                container.innerHTML = `<div class="msg bot">🍓 Привет! Выбери модель и задавай вопросы.</div>`;
-            }
-
-            showToast('✅ Приложение готово к работе!', 1500);
-            console.log('✅ Ключ получен:', OPENROUTER_KEY ? 'Да' : 'Нет');
-            console.log('💎 Премиум:', hasPremium);
-        }
-
-        // ============================================
-        // 4. Подписка
+        // 2. ПОДПИСКА (локальное хранилище)
         // ============================================
         function loadSubscription() {
             const data = localStorage.getItem('kryxmind_subscription');
@@ -493,7 +352,6 @@
                     const parsed = JSON.parse(data);
                     if (parsed.expires && new Date(parsed.expires) > new Date()) {
                         hasPremium = true;
-                        premiumUntil = parsed.expires;
                         return true;
                     } else {
                         localStorage.removeItem('kryxmind_subscription');
@@ -501,23 +359,16 @@
                 } catch (e) {}
             }
             hasPremium = false;
-            premiumUntil = null;
             return false;
         }
 
         function saveSubscription(days) {
             const expires = new Date();
             expires.setDate(expires.getDate() + days);
-            const data = { expires: expires.toISOString() };
-            localStorage.setItem('kryxmind_subscription', JSON.stringify(data));
+            localStorage.setItem('kryxmind_subscription', JSON.stringify({ expires: expires.toISOString() }));
             hasPremium = true;
-            premiumUntil = expires.toISOString();
             updateUI();
-
-            tg.sendData(JSON.stringify({
-                action: 'buy_subscription',
-                days: days
-            }));
+            showToast('✅ Подписка активирована на ' + days + ' дней!', 2000);
         }
 
         function updateUI() {
@@ -546,30 +397,26 @@
         }
 
         // ============================================
-        // 5. Модалка
+        // 3. МОДАЛКА
         // ============================================
         function openSubscriptionModal() {
             document.getElementById('subscriptionModal').classList.add('active');
         }
-
         function closeSubscriptionModal() {
             document.getElementById('subscriptionModal').classList.remove('active');
         }
-
         function buyPlan(days, price) {
             showToast('💎 Оплата ' + days + ' дней за ' + price + ' ₽', 1500);
             saveSubscription(days);
             closeSubscriptionModal();
-            showToast('✅ Подписка активирована на ' + days + ' дней!', 2000);
         }
 
         // ============================================
-        // 6. Тост
+        // 4. ТОСТ
         // ============================================
         function showToast(text, duration = 2000) {
             const toast = document.getElementById('toast');
             toast.textContent = text;
-            toast.className = 'toast';
             toast.classList.add('show');
             clearTimeout(toast._hideTimer);
             toast._hideTimer = setTimeout(() => {
@@ -578,20 +425,16 @@
         }
 
         // ============================================
-        // 7. Модели
+        // 5. МОДЕЛИ
         // ============================================
-        let selectedModel = 'openrouter/free';
-
         function selectModel(modelId) {
             const btn = document.querySelector(`[data-model="${modelId}"]`);
             if (!btn) return;
-
             if (btn.dataset.premium === 'true' && !hasPremium) {
                 showToast('⛔ Это премиум-модель! Купи подписку.', 2000);
                 openSubscriptionModal();
                 return;
             }
-
             selectedModel = modelId;
             document.querySelectorAll('.model-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
@@ -599,7 +442,7 @@
         }
 
         // ============================================
-        // 8. Чат
+        // 6. ЧАТ
         // ============================================
         function addMessage(text, isUser = false) {
             const container = document.getElementById('chatMessages');
@@ -637,21 +480,19 @@
             const container = document.getElementById('chatMessages');
             container.innerHTML = `<div class="msg bot">🍓 История очищена. Задавай вопросы!</div>`;
             showToast('🗑️ Чат очищен', 1500);
-            tg.sendData(JSON.stringify({ action: 'clear' }));
         }
 
         // ============================================
-        // 9. Отправка сообщения
+        // 7. ОТПРАВКА СООБЩЕНИЯ
         // ============================================
-        let isProcessing = false;
-
         async function sendMessage() {
             const input = document.getElementById('chatInput');
             const text = input.value.trim();
             if (!text || isProcessing) return;
 
-            if (!OPENROUTER_KEY) {
-                showToast('⛔ Ключ не получен! Перезапусти приложение.', 3000);
+            // Проверка ключа
+            if (!OPENROUTER_KEY || OPENROUTER_KEY === '{{ OPENROUTER_API_KEY }}') {
+                showToast('⛔ Ключ не настроен! Проверь GitHub Actions.', 3000);
                 return;
             }
 
@@ -707,18 +548,18 @@
         }
 
         // ============================================
-        // 10. Загрузка
+        // 8. ЗАГРУЗКА
         // ============================================
         loadSubscription();
         loadChatHistory();
         updateUI();
 
-        // Запрашиваем конфиг у бота через 500мс
-        setTimeout(() => {
-            loadConfigFromBot();
-        }, 500);
-
-        console.log('🍓 KryxMind AI v5.0 загружен!');
+        console.log('🍓 KryxMind AI загружен!');
+        if (OPENROUTER_KEY && OPENROUTER_KEY !== '{{ OPENROUTER_API_KEY }}') {
+            console.log('✅ Ключ загружен из GitHub Secrets');
+        } else {
+            console.warn('⚠️ Ключ не настроен! Проверь GitHub Actions.');
+        }
     </script>
 </body>
 </html>
